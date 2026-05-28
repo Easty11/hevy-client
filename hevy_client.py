@@ -69,6 +69,7 @@ def list_workouts(pages: int = 1, page_size: int = 10) -> None:
 
 
 def list_routines(pages: int = 1, page_size: int = 10) -> None:
+    """Fetch and print routines; page through results with --pages."""
     all_rows = []
     for page in range(1, pages + 1):
         data = _get("/routines", {"page": page, "pageSize": page_size})
@@ -138,7 +139,8 @@ def main() -> None:
     w = sub.add_parser("workouts")
     w.add_argument("--pages", type=int, default=1)
 
-    sub.add_parser("routines")
+    r = sub.add_parser("routines")
+    r.add_argument("--pages", type=int, default=1)
 
     e = sub.add_parser("exercises")
     e.add_argument("--search", type=str, default=None)
@@ -151,7 +153,7 @@ def main() -> None:
     elif args.cmd == "workouts":
         list_workouts(pages=args.pages)
     elif args.cmd == "routines":
-        list_routines()
+        list_routines(pages=args.pages)
     elif args.cmd == "exercises":
         list_exercises(search=args.search)
     elif args.cmd == "create-sample":
